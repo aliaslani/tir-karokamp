@@ -21,6 +21,9 @@ class MyUser(models.Model):
     class Meta:
         verbose_name = "کاربر"
 
+    def __str__(self):
+        return f"{self.username}"
+
 
 class Post(models.Model):
     title = models.CharField(max_length=50)
@@ -30,9 +33,12 @@ class Post(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     published = models.BooleanField(default=False)
     published_at = models.DateTimeField()
-    rate = models.PositiveSmallIntegerField()
+    rate = models.PositiveSmallIntegerField(default=0)
     archived = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = "پست"
         verbose_name_plural = "پست"
+
+    def __str__(self):
+        return f"{self.title}"
