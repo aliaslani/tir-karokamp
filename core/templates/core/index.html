@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>facebooom</title>
+    <style>
+        h1 {
+            background-color: skyblue;
+            color: red;
+            text-align: center;
+        }
+
+        h2 {
+            color: seagreen;
+            /* text-align: center; */
+        }
+
+        .ali {
+            color: orange;
+        }
+
+        .others {
+            color: red;
+        }
+    </style>
+</head>
+
+<body dir="rtl">
+    <h1>Faceboom</h1>
+    <p>
+        {% for post in posts %}
+        {% if post.user.username == 'ali' %}
+    <h2 class="ali">{{ post }} </h2>
+    {% else %}
+    <h2 class="others">{{ post }} </h2>
+    {% endif %}
+    {% endfor %}
+    </p>
+</body>
+
+</html>
