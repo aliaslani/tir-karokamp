@@ -1,17 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'core/base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ post.title }}</title>
-</head>
+{% block title %}
+{{ post.title }}
+{% endblock %}
 
-<body>
-    <h2>{{ post.title }}</h2>
-    <p>{{ post.content }}</p>
-    <small>{{ post.user }}</small>
-    <small>{{ post.created_at }}</small>
-</body>
+{% block main %}
+<div class="row mt-4">
+    <div class="col-sm-3"></div>
 
-</html>
+    <div class="col-sm-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ post.title }}</h5>
+                <p class="card-text">{{ post.content }}</p>
+                <a href="{% url 'post_delete' post.id %}" class="btn btn-danger">حذف</a>
+                <div class="card-footer mt-1 d-flex justify-content-between">
+
+                    <small class="text-muted">نویسنده: {{ post.user }} </small>
+                    <small class="text-muted">تاریخ انتشار: {{ post.created_at }} </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

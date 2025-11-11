@@ -1,41 +1,23 @@
-<!DOCTYPE html>
-<html>
+{% extends 'core/base.html' %}
 
-<head>
-    <title>facebooom</title>
-    <style>
-        h1 {
-            background-color: skyblue;
-            color: red;
-            text-align: center;
-        }
+{% block title %}
+فیسبوووم
+{% endblock %}
 
-        h2 {
-            color: seagreen;
-            /* text-align: center; */
-        }
+{% block main %}
 
-        .ali {
-            color: orange;
-        }
+<div class="row mt-4">
+    <div class="col-sm-8">
+        <ul class="list-group">
+            {% for post in posts %}
+            <li class="list-group-item d-flex justify-content-between">
+                <a class="link text-decoration-none" href="{% url 'post_detail' post_id=post.id %}">{{ post }} </a>
+                <a class="link text-decoration-none" href="">{{ post.user }} </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+<p>
 
-        .others {
-            color: red;
-        }
-    </style>
-</head>
-
-<body dir="rtl">
-    <h1>Faceboom</h1>
-    <p>
-        {% for post in posts %}
-        {% if post.user.username == 'ali' %}
-    <h2 class="ali">{{ post }} </h2>
-    {% else %}
-    <h2 class="others">{{ post }} </h2>
-    {% endif %}
-    {% endfor %}
-    </p>
-</body>
-
-</html>
+    {% endblock %}
