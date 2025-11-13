@@ -1,3 +1,17 @@
+@font-face {
+    font-family: 'ali';
+    src: url('../fonts/vazir.ttf');
+}
+
+* {
+    font-family: 'ali';
+}
+
 h1 {
     font-size: 100px;
 }
+
+input {
+    margin-block: 10px;
+}
+
