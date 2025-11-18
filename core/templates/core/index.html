@@ -5,7 +5,14 @@
 {% endblock %}
 
 {% block main %}
+{% if messages %}
 
+{% for message in messages %}
+<div class="alert {% if message.tags == 'success' %}alert-success {% else %}alert-danger {% endif %}">
+    {{ message }}
+</div>
+{% endfor %}
+{% endif %}
 <div class="row mt-4">
     <div class="col-sm-8">
         <ul class="list-group">
