@@ -3,7 +3,7 @@ from core.models import Post, MyUser
 from django.contrib import messages
 
 # Create your views here.
-from core.forms import PostForm
+from core.forms import PostForm, CreateUserForm
 
 
 def home(request):
@@ -78,3 +78,14 @@ def create_post(request):
             return redirect("home")
 
     return render(request, "core/create_post.html", {"form": form})
+
+
+def create_user(request):
+    form = CreateUserForm()
+    if request.method == "POST":
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "کاربر جدید اضافه شد")
+            return redirect("home")
+    return render(request, "core/new_user.html", {"form": form})

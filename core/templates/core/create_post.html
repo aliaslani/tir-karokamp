@@ -9,7 +9,7 @@
 <div class="row mt-2">
     <div class="col-sm-8">
 
-        <form action="{% url 'create_post' %}" method="post" class="form">
+        <form action="{% url 'create_user' %}" method="post" class="form">
             {% csrf_token %}
             {% if form.non_field_errors %}
 
