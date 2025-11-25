@@ -1,28 +1,5 @@
 from django.db import models
-
-# Create your models here.
-
-
-class GenderOption(models.TextChoices):
-    male = ("m", "مرد")
-    female = ("f", "زن")
-    none = ("n", "نمی‌خواهم مشخص کنم")
-
-
-class MyUser(models.Model):
-    username = models.CharField(max_length=50, verbose_name="نام کاربری", unique=True)
-    password = models.CharField(max_length=20)
-    name = models.CharField(max_length=40)
-    birthdate = models.DateField("تاریخ تولد")
-    phone = models.CharField(max_length=11, null=True, blank=True)
-    email = models.EmailField()
-    gender = models.CharField(max_length=10, choices=GenderOption.choices)
-
-    class Meta:
-        verbose_name = "کاربر"
-
-    def __str__(self):
-        return f"{self.username}"
+from accounts.models import MyUser
 
 
 class Post(models.Model):

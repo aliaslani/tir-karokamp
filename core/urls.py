@@ -1,10 +1,9 @@
 from django.urls import path
-from core.views import home, post_detail, post_delete, create_post, create_user
+from core.views import home, post_detail, post_delete, create_post
 
 urlpatterns = [
     path("", home, name="home"),
     path("post/<post_id>/", post_detail, name="post_detail"),
     path("post/delete/<int:post_id>/", post_delete, name="post_delete"),
     path("new/post/", create_post, name="create_post"),
-    path("new/user/", create_user, name="create_user"),
 ]

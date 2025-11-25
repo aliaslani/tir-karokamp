@@ -1,13 +1,5 @@
 from django import forms
 from core.models import MyUser
-from django.core.validators import (
-    EmailValidator,
-    MaxLengthValidator,
-    RegexValidator,
-    MinLengthValidator,
-    MaxValueValidator,
-    MinValueValidator,
-)
 
 
 class PostForm(forms.Form):
@@ -48,34 +40,3 @@ class PostForm(forms.Form):
         if content and title not in content:
             raise forms.ValidationError("حتما باید عنوان در محتوا نیز وجود داشته باشد.")
         return self.cleaned_data
-
-
-class CreateUserForm(forms.ModelForm):
-    class Meta:
-        model = MyUser
-        fields = [
-            "username",
-            "password",
-            "name",
-            "email",
-            "gender",
-            "birthdate",
-            "phone",
-        ]
-
-        widgets = {
-            "username": forms.TextInput(
-                attrs={"class": "form-control", "placeholder": "نام کاربری"}
-            ),
-            "gender": forms.Select(attrs={"class": "form-select"}),
-            "password": forms.PasswordInput(attrs={"class": "form-control"}),
-            "birthdate": forms.DateInput(
-                attrs={"class": "form-control", "type": "date"}
-            ),
-        }
-
-    def clean_password(self):
-        password = self.cleaned_data.get("password")
-        if len(password) < 20:
-            raise forms.ValidationError("گذرواژه کوتاه است")
-        return password
