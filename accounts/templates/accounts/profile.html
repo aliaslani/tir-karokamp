@@ -1,18 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'core/base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+{% block title %}
+{{ user.username }}
+{% endblock %}
 
-<body>
-    {{ user.username }}
-    {{ user.date_joined }}
-    {{ user.password }}
-    {{ user.birthdate }}
-    <img src="{{ user.profile_picture.url }}" alt="">
-</body>
+{% block main %}
+{{ user.username }}
+{{ user.date_joined }}
+{{ user.password }}
+{{ user.birthdate }}
+<img src="{{ user.profile_picture.url }}" alt="">
 
-</html>
+
+{% endblock %}

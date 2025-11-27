@@ -32,11 +32,11 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{% url 'home' %}">خانه</a>
                     </li>
+
+
+                    {% if user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'create_post' %}">پست جدید</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">ورود</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -44,16 +44,32 @@
                             پروفایل
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="{% url 'profile' %}">{{ user.username }}</a></li>
                             <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            <li><a class="dropdown-item" href="{% url 'logout' %}">خروج</a></li>
                         </ul>
                     </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">ورود</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'register' %}">ثبت نام</a>
+                    </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
     </nav>
     <div class="container">
+        {% if messages %}
+
+        {% for message in messages %}
+        <div class="alert {% if message.tags == 'success' %}alert-success {% else %}alert-danger {% endif %}">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
         {% block main %}
 
         {% endblock %}
