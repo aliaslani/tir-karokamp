@@ -119,7 +119,7 @@ USE_TZ = True
 STATIC_URL = "static/"
 STATIC_ROOT = "static"
 STATICFILES_DIRS = ["staticfiles", "core/static/"]
-
+# LOGIN_URL = "/accounts/logindkasd/"
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"
 

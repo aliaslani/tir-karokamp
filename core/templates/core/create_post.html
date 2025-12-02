@@ -8,7 +8,7 @@
 {% block main %}
 <div class="row mt-2">
     <div class="col-sm-8">
-
+        {% if user.is_authenticated %}
         <form action="{% url 'create_post' %}" method="post" class="form">
             {% csrf_token %}
             {% if form.non_field_errors %}
@@ -45,6 +45,9 @@
             <input class="btn btn-primary" type="submit" value="ثبت">
 
         </form>
+        {% else %}
+        <div class="alert alert-danger">شما قادر به ایجاد پست جدید نیستید باید قبل از آن وارد شوید</div>
+        {% endif %}
     </div>
 </div>
 

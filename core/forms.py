@@ -1,5 +1,28 @@
+from cProfile import label
 from django import forms
-from core.models import MyUser
+from core.models import MyUser, Post
+
+
+class EditPostForm(forms.ModelForm):
+    title = forms.CharField(
+        label="عنوان", widget=forms.TextInput(attrs={"class": "form-control"})
+    )
+
+    class Meta:
+        model = Post
+        fields = [
+            "title",
+            "content",
+            "published",
+            "archived",
+        ]
+        widgets = {
+            "content": forms.Textarea(
+                attrs={
+                    "class": "form-control",
+                }
+            )
+        }
 
 
 class PostForm(forms.Form):

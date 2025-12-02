@@ -1,7 +1,9 @@
+from math import log
 from django.shortcuts import render, get_object_or_404, redirect
 from core.models import Post
 from django.contrib import messages
-from core.forms import PostForm
+from core.forms import PostForm, EditPostForm
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 
@@ -19,9 +21,13 @@ def post_detail(request, post_id):
 
 def post_delete(request, post_id):
     p = get_object_or_404(Post, pk=post_id)
-    p.archived = True
-    p.save()
-    return redirect("home")
+    if request.user == p.user:
+        p.archived = True
+        p.save()
+        return redirect("home")
+    else:
+        messages.error(request, "شما مجاز به انجام این کار نیستید")
+        return redirect("home")
 
 
 # def create_post(request):
@@ -50,6 +56,9 @@ def post_delete(request, post_id):
 
 
 #     return render(request, "core/create_post.html", {"form": form})
+
+
+@login_required
 def create_post(request):
     form = PostForm()
     if request.method == "POST":
@@ -77,3 +86,15 @@ def create_post(request):
             return redirect("home")
 
     return render(request, "core/create_post.html", {"form": form})
+
+
+def edit_post(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+    form = EditPostForm(instance=post)
+    if request.method == "POST":
+        form = EditPostForm(request.POST, instance=post)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "پست با موفقیت ویرایش شد")
+            return redirect("post_detail", post_id=post.id)
+    return render(request, "core/edit_post.html", {"post": post, "form": form})

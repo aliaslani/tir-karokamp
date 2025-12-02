@@ -1,0 +1,40 @@
+{% extends 'core/base.html' %}
+
+{% block title %}
+{{ post.title }}
+{% endblock %}
+
+
+{% block main %}
+<div class="row mt-2">
+    <div class="col-sm-8">
+        <form action="{% url 'edit_post' post.id %}" method="post" class="form">
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+
+            {% for error in form.non_field_errors %}
+
+            <div class="alert alert-danger">{{ error }}</div>
+
+            {% endfor %}
+
+            {% endif %}
+            {% for field in form %}
+
+            {{ field.label }}
+            {{ field }}
+            {% if field.errors %}
+            {% for error in field.errors %}
+            <div class="text-danger">* {{ error }}</div>
+            {% endfor %}
+            {% endif %}
+
+            {% endfor %}
+            <input class="btn btn-primary" type="submit" value="ویرایش">
+
+        </form>
+    </div>
+</div>
+
+
+{% endblock %}
