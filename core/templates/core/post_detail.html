@@ -17,7 +17,16 @@
                 <a href="{% url 'post_delete' post.id %}" class="btn btn-danger">حذف</a>
                 <a href="{% url 'edit_post' post.id %}" class="btn btn-warning">ویرایش</a>
                 {% endif %}
+                <form action="{% url 'post_score' post.id %}" class="form-inline" method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                        <label class="form-label-inline col-sm-2" for="score">امتیاز: </label>
+                        <input type="number" name="score" class="col-sm-4 form-control">
+                        <input type="submit" value="ثبت" class="btn btn-danger col-sm-3">
+                    </div>
+                </form>
                 <div class="card-footer mt-1 d-flex justify-content-between">
+                    <small class="text-muted">{{ score }}</small>
 
                     <small class="text-muted">نویسنده: {{ post.user }} </small>
                     <small class="text-muted">تاریخ انتشار: {{ post.created_at }} </small>

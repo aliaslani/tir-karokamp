@@ -3,6 +3,7 @@ from accounts.models import MyUser
 from django.core.validators import FileExtensionValidator
 
 
+from django.http import JsonResponse
 class RegisterForm(forms.ModelForm):
     profile_picture = forms.ImageField(
         validators=[FileExtensionValidator(["jpg", "png"], "فرمت فایل معتبر نیست")]

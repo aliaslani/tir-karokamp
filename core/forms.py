@@ -34,10 +34,10 @@ class PostForm(forms.Form):
     content = forms.CharField(
         widget=forms.Textarea(attrs={"class": "form-control"}), label="محتوا"
     )
-    user = forms.ModelChoiceField(
-        queryset=MyUser.objects.all(),
-        widget=forms.Select(attrs={"class": "form-select"}),
-    )
+    # user = forms.ModelChoiceField(
+    #     queryset=MyUser.objects.all(),
+    #     widget=forms.Select(attrs={"class": "form-select"}),
+    # )
     published = forms.BooleanField(
         widget=forms.CheckboxInput(attrs={"class": "form-check-input"}),
         label="منتشر شود",

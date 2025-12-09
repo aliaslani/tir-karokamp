@@ -1,21 +1,38 @@
+from email import message
 from math import log
 from django.shortcuts import render, get_object_or_404, redirect
 from core.models import Post
 from django.contrib import messages
 from core.forms import PostForm, EditPostForm
 from django.contrib.auth.decorators import login_required
+from core.models import Score
+from statistics import mean
+from django.db.models import Q
 # Create your views here.
 
 
+@login_required()
 def home(request):
-    posts = Post.objects.filter(archived=False)
+    parameter = request.GET.get("search")
+    if parameter:
+        posts = Post.objects.filter(
+            Q(title__contains=parameter)
+            | Q(content__contains=parameter)
+            | Q(user__username__contains=parameter)
+        )
+    else:
+        posts = Post.objects.filter(archived=False)
     data = {"posts": posts}
     return render(request, "core/index.html", context=data)
 
 
 def post_detail(request, post_id):
     p = get_object_or_404(Post, pk=post_id)
-    context = {"post": p}
+    # score = 0
+    # for rate in p.rates.all():
+    #     score += int(rate.rate)
+    score = mean([int(i.rate) for i in p.rates.all()])
+    context = {"post": p, "score": score}
     return render(request, "core/post_detail.html", context=context)
 
 
@@ -68,14 +85,14 @@ def create_post(request):
             print(data)
             title = data.get("title")
             content = data.get("content")
-            user = data.get("user")
+            # user = data.get("user")
             published_at_date = data.get("published_at_date")
             published_at_time = data.get("published_at_time")
             published = data.get("published")
             new_post = Post.objects.create(
                 title=title,
                 content=content,
-                user=user,
+                user=request.user,
                 published_at=f"{published_at_date} {published_at_time}",
                 published=published,
             )
@@ -88,6 +105,7 @@ def create_post(request):
     return render(request, "core/create_post.html", {"form": form})
 
 
+@login_required
 def edit_post(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
     form = EditPostForm(instance=post)
@@ -98,3 +116,22 @@ def edit_post(request, post_id):
             messages.success(request, "پست با موفقیت ویرایش شد")
             return redirect("post_detail", post_id=post.id)
     return render(request, "core/edit_post.html", {"post": post, "form": form})
+
+
+def add_score(request, post_id):
+    if request.method == "POST":
+        post = get_object_or_404(Post, pk=post_id)
+        rate = request.POST.get("score")
+        new_score = Score.objects.create(user=request.user, rate=rate, post=post)
+        messages.success(request, "امتیاز ثبت شد")
+        return redirect("post_detail", post_id=post.id)
+
+
+def search_post(request):
+    parameter = request.GET.get("search")
+    posts = Post.objects.filter(
+        Q(title__contains=parameter)
+        | Q(content__contains=parameter)
+        | Q(user__username__contains=parameter)
+    )
+    return render(request, "core/index.html", {"posts": posts})

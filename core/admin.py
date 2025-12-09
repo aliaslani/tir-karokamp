@@ -1,6 +1,6 @@
 from django.contrib import admin
-from core.models import Post
-# Register your models here.
+from core.models import Post, Score
 
 
 admin.site.register(Post)
+admin.site.register(Score)

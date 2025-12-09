@@ -5,7 +5,10 @@
 {% endblock %}
 
 {% block main %}
-{{ user }}
+<form action="{% url 'home' %}">
+    <input type="search" class="form-control" name="search">
+    <input type="submit" value="search" class="btn btn-primary">
+</form>
 <div class="row mt-4">
     <div class="col-sm-8">
         <ul class="list-group">
