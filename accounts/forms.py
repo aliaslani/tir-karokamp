@@ -1,54 +1,44 @@
 from django import forms
 from accounts.models import MyUser
 from django.core.validators import FileExtensionValidator
+from django.contrib.auth.forms import UserCreationForm
 
 
 from django.http import JsonResponse
-class RegisterForm(forms.ModelForm):
+class RegisterForm(UserCreationForm):
     profile_picture = forms.ImageField(
         validators=[FileExtensionValidator(["jpg", "png"], "فرمت فایل معتبر نیست")]
     )
-    confirm_password = forms.CharField(
-        widget=forms.PasswordInput(attrs={"class": "form-contrl"}),
-        label="تکرار گذرواژه",
-    )
+    
 
-    class Meta:
+    class Meta(UserCreationForm.Meta):
         model = MyUser
-        fields = [
+        fields = (
             "username",
-            "password",
-            "confirm_password",
             "first_name",
             "last_name",
             "email",
             "phone",
             "gender",
-            "profile_picture",
             "birthdate",
-        ]
-
+            "profile_picture",
+        )
         widgets = {
-            "username": forms.TextInput(attrs={"class": "form-control"}),
-            "password": forms.PasswordInput(attrs={"class": "form-control"}),
-        }
+            "birthdate": forms.DateInput(
+                attrs={
+                    "type": "text",
+                    "id": "birthdate",
+                    "class": "form-control",
+                }
+            ),
+        } 
 
-    def clean_username(self):
-        username = self.cleaned_data.get("username")
-        user = MyUser.objects.filter(username=username).exists()
-        if user:
-            raise forms.ValidationError(
-                "کاربری با این نام کاربری قبلا ثبت نام کرده است."
-            )
-        return username
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
-    def clean(self):
-        data = self.cleaned_data
-        password = data.get("password")
-        confirm_password = data.pop("confirm_password")
-        if password != confirm_password:
-            raise forms.ValidationError("گذرواژه با تکرار آن مطابقت ندارد")
-        return data
+        # Style all fields consistently
+        for field in self.fields.values():
+            field.widget.attrs["class"] = "form-control"
 
 
 class LoginForm(forms.Form):

@@ -15,10 +15,7 @@ def register(request):
     if request.method == "POST":
         form = RegisterForm(request.POST, request.FILES)
         if form.is_valid():
-            # MyUser.objects.create_user(**form.cleaned_data)
-            new_user = form.save(commit=False)
-            new_user.set_password(new_user.password)
-            new_user.save()
+            form.save()
             messages.success(request, "ثبت نام شما با موفقیت انجام شد")
             return redirect("login")
 
@@ -37,6 +34,11 @@ def login_view(request):
                 login(request, user)
                 messages.success(request, "خوش آمدید")
                 return redirect("profile")
+            else:
+                messages.error(request, 'کاربری با این مشخصات یافت نشد')
+                print(username, password, user)
+        else:
+            print(form.errors)
     return render(request, "accounts/login.html", {"form": form})
 
 
